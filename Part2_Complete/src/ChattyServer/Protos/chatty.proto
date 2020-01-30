@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option csharp_namespace = "ChattyServer.Protos";
+
+package chatty;
+
+service Chat {
+    rpc SignIn(SignInRequest) returns (SignInResponse);
+    rpc GetRoomList(GetRoomListRequest) returns (GetRoomListResponse);
+    rpc Listen(ListenRequest) returns (stream ListenResponse);
+    rpc Say(SayRequest) returns (SayResponse);
+}
+
+message SignInRequest {
+    string user_name = 1;
+    string password = 2;
+}
+
+message SignInResponse {
+    string token = 1;
+}
+
+message GetRoomListRequest { }
+
+message GetRoomListResponse {
+    repeated Room rooms = 1;
+}
+
+message Room {
+    int32 id = 1;
+    string name = 2;
+}
+
+message ListenRequest {
+    int32 room_id = 1;
+}
+
+message ListenResponse {
+    string user_name = 1;
+    string message = 2;
+}
+
+message SayRequest {
+    int32 room_id = 1;
+    string message = 3;
+}
+
+message SayResponse { }
