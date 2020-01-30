@@ -49,8 +49,6 @@ namespace ChattyClient
             {
                 await foreach (var item in stream.ResponseStream.ReadAllAsync(cancellationToken))
                 {
-                    if (item.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)) continue;
-
                     Console.WriteLine();
                     Console.WriteLine($"{item.UserName}: {item.Message}");
                     Console.WriteLine("> ");

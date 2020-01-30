@@ -33,6 +33,7 @@ message Room {
 
 message ListenRequest {
     int32 room_id = 1;
+    reserved 2;
 }
 
 message ListenResponse {

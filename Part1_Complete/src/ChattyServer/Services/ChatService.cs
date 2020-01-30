@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using ChattyHub;
 using ChattyServer.Protos;
@@ -53,10 +54,15 @@ namespace ChattyServer
         public override async Task Listen(ListenRequest request, IServerStreamWriter<ListenResponse> responseStream, ServerCallContext context)
         {
             var channel = _chatter.Listen(request.RoomId);
+            var userName = request.UserName;
             while (await channel.WaitToReadAsync())
             {
                 while (channel.TryRead(out var message))
                 {
+                    if (message.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
                     await responseStream.WriteAsync(new ListenResponse
                     {
                         UserName = message.UserName,
